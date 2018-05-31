@@ -19,6 +19,7 @@ public class Item {
     this.locationY=locationY;
   }
   
+  //set methods for the program, sets the values of the specified variable
   public void setFound(){
     this.isFound=true;
   }
@@ -29,6 +30,19 @@ public class Item {
   
   public void setY(int y){
     this.locationY=y;
+  }
+  
+  //get methods for the program, gets the values of the specified variable
+  public String getName(){
+    return this.name;
+  }
+  
+  public String getDesc(){
+    return this.description;
+  }
+  
+  public int getNum(){
+    return this.number;
   }
   
   public boolean getFound(){
