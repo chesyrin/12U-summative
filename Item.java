@@ -32,7 +32,7 @@ public class Item {
   }
   
   public boolean getFound(){
-    return this.found;
+    return this.isFound;
   }
   
   public int getX(){
