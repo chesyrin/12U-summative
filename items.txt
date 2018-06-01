@@ -1,4 +1,4 @@
-Envelope 52 228 1 A sealed envelope. The address is smudged, but there seems to be paper inside...
-Fork 92 337 2 A metal fork. There's a weird reddish substance on it, and it's kind of dirty... You're hungry, but not hungry enough to use this fork.
+Envelope 52 228 1 A sealed envelope. The address is smudged, but there seems to be paper inside... You try to open it, but the seal is too strong. (Is it super glue?)
+Fork 92 337 2 A metal fork. There's a weird reddish substance on it, and it's kind of dirty... You're hungry, but not hungry enough to use this fork. Ever.
 Mirror 23 444 3 A surprisingly clean mirror. You think it cracks a little as you peer into it, but it might just be your imagination.
-Key 92 723 4 An old-fashioned key. It might unlock the door to the room!
+Key 92 723 4 An old-fashioned key. Your hand is super rusty now. Gross...
