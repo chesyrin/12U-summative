@@ -61,11 +61,11 @@ public class Main {
    * @param item - the item that the player thinks is the answer
    * @return boolean - if the riddle has been solved or not
    */
-  public boolean solveRiddle(Puzzle puzzle, Item item){
+  public static boolean solveRiddle(Puzzle puzzle, Item item){
     if (puzzle.getNum()==item.getNum()){
       //remove the puzzle and item from their respective lists
       puzzles.remove(0);
-      inventory.remove(0);
+      inventory.remove(0); //need to initialize inventory once gameplay starts
       return true;
     }
     return false;
@@ -82,7 +82,8 @@ public class Main {
     for (int i=0; i<4; i++){
       System.out.println (items.get(i).getDesc());
     }
-  
+    puzzles.remove(0);
+    new VisualNovel(puzzles, items);
   }
   
 }
