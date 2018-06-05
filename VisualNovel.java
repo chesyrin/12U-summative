@@ -144,7 +144,16 @@ public class VisualNovel extends JFrame implements ActionListener{
           textLabel.setText(temp);
           
           //check if answer is valid
-          Main.solveRiddle(puzzles.get(0), items.get(Integer.parseInt(temp)));
+          System.out.println (puzzles.get(0).getQ());
+          System.out.println (items.get(Integer.parseInt(temp)).getName());
+          boolean correct = Main.solveRiddle(puzzles.get(0), items.get(Integer.parseInt(temp)));
+          nameLabel.setText("NPC");
+          if (correct==true){
+            textLabel.setText("I can't belive you got that right!");
+          }
+          else{
+            textLabel.setText("You're terrible at this...");
+          }
         }
         turn++;
       //}

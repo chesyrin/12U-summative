@@ -65,7 +65,20 @@ public class Main {
     if (puzzle.getNum()==item.getNum()){
       //remove the puzzle and item from their respective lists
       puzzles.remove(0);
-      inventory.remove(0); //need to initialize inventory once gameplay starts
+      //if inventory size is > 1
+      if (inventory.size()>1){
+        inventory.remove(0); //need to initialize inventory once gameplay starts
+       // items.remove(0);
+      }
+      else{
+        inventory.clear();
+      }
+      
+      //debugging, check if files have been read in correctly
+      for (int i=0; i<inventory.size(); i++){
+        System.out.println (inventory.get(i).getDesc());
+      }
+      
       return true;
     }
     return false;
@@ -77,12 +90,13 @@ public class Main {
    
     readItems();
     readPuzzles();
+    inventory=items;
     
     //debugging, check if files have been read in correctly
-    for (int i=0; i<4; i++){
+    for (int i=0; i<items.size(); i++){
       System.out.println (items.get(i).getDesc());
     }
-    puzzles.remove(0);
+    
     new VisualNovel(puzzles, items);
   }
   
