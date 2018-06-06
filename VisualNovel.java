@@ -134,29 +134,46 @@ public class VisualNovel extends JFrame implements ActionListener{
       //try{
         if (turn%2==0){
           nameLabel.setText("NPC");
-          textLabel.setText(puzzles.get(0).getQ());
-        }
-        else{
-          nameLabel.setText("Player");
-          //create a pop up asking for answer
-          JFrame frame = new JFrame();
-          String temp = JOptionPane.showInputDialog("Please enter your answer:");
-          textLabel.setText(temp);
-          
-          //check if answer is valid
-          System.out.println (puzzles.get(0).getQ());
-          System.out.println (items.get(Integer.parseInt(temp)).getName());
-          boolean correct = Main.solveRiddle(puzzles.get(0), items.get(Integer.parseInt(temp)));
-          nameLabel.setText("NPC");
-          if (correct==true){
-            textLabel.setText("I can't belive you got that right!");
+          if (puzzles.size()>0){
+            textLabel.setText(puzzles.get(0).getQ());
           }
           else{
-            textLabel.setText("You're terrible at this...");
+            textLabel.setText("Wow! You solved all the puzzles!");
+          }
+        }
+        else{
+          if (textLabel.getText().equals("Wow! You solved all the puzzles!")){
+            f.dispose();
+          }
+          else{
+            nameLabel.setText("Player");
+            //create a pop up asking for answer
+            JFrame frame = new JFrame();
+            String temp = JOptionPane.showInputDialog("Please enter your answer:");
+            textLabel.setText(temp);
+            
+            //check if answer is valid
+            System.out.println (puzzles.get(0).getQ()+"\n");
+            
+            //debugging, check if files have been read in correctly
+            for (int i=0; i<items.size(); i++){
+              System.out.println (items.get(i).getName());
+            }
+            
+            //System.out.println (items.get(Integer.parseInt(temp)).getName() + "\n");
+            
+            boolean correct = Main.solveRiddle(puzzles.get(0), items.get(Integer.parseInt(temp)));
+            nameLabel.setText("NPC");
+            if (correct==true){
+              textLabel.setText("I can't belive you got that right!");
+            }
+            else{
+              textLabel.setText("You're terrible at this...");
+            }
           }
         }
         turn++;
-      //}
+        //}
       //catch(Exception E){
         //when there aren't anymore lines, get rid of this
       //  f.dispose();

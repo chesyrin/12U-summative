@@ -64,13 +64,21 @@ public class Main {
   public static boolean solveRiddle(Puzzle puzzle, Item item){
     if (puzzle.getNum()==item.getNum()){
       //remove the puzzle and item from their respective lists
-      puzzles.remove(0);
-      //if inventory size is > 1
-      if (inventory.size()>1){
-        inventory.remove(0); //need to initialize inventory once gameplay starts
-       // items.remove(0);
+      if (puzzles.size()>1){
+        puzzles.remove(0);
       }
       else{
+        puzzles.clear();
+      }
+      
+      System.out.println ("\nStarting size:"+inventory.size());
+      //if more than one item in inventory
+      if (inventory.size()>2){
+        System.out.println ("YES");
+        inventory.remove(0); //need to initialize inventory once gameplay starts
+      }
+      else{
+        System.out.println ("yes");
         inventory.clear();
       }
       
@@ -78,7 +86,7 @@ public class Main {
       for (int i=0; i<inventory.size(); i++){
         System.out.println (inventory.get(i).getDesc());
       }
-      
+      System.out.println ("Ending size:"+inventory.size() + "\n");
       return true;
     }
     return false;
@@ -90,11 +98,8 @@ public class Main {
    
     readItems();
     readPuzzles();
-    inventory=items;
-    
-    //debugging, check if files have been read in correctly
-    for (int i=0; i<items.size(); i++){
-      System.out.println (items.get(i).getDesc());
+    for (int i=0; i<4; i++){
+      inventory.add(items.get(i));
     }
     
     new VisualNovel(puzzles, items);
