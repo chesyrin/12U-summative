@@ -17,9 +17,7 @@ public class VisualNovel extends JFrame implements ActionListener{
   JButton nextButton = new JButton ("Next");
   JLabel textLabel = new JLabel("~Sample text 1~");
   JLabel nameLabel = new JLabel("Name");
-  ImageIcon bgImage = new ImageIcon("IMAGE.jpg");
   ImageIcon image = new ImageIcon("dialogue1.png");
-  JLabel bg = new JLabel(bgImage);
   JLabel imageLabel = new JLabel(image);
   Scanner fileInput;
   String fileName="";
@@ -27,7 +25,16 @@ public class VisualNovel extends JFrame implements ActionListener{
   SimpleLinkedList<Puzzle> puzzles;
   SimpleLinkedList<Item> items;
   int turn=0;
-        
+  JPanel dialoguePanel = new JPanel();
+  JPanel namePanel = new JPanel();
+  
+  ImageIcon nonPlayer = new ImageIcon("npc.png");
+  ImageIcon player = new ImageIcon("player.png");
+  ImageIcon bg = new ImageIcon ("bg.png");
+  JLabel npcLabel = new JLabel(nonPlayer);
+  JLabel playerLabel = new JLabel (player);
+  JLabel bgLabel = new JLabel (bg);
+  
   //start of constructor
   public VisualNovel(String fileName) 
   { 
@@ -43,33 +50,58 @@ public class VisualNovel extends JFrame implements ActionListener{
     
     File file = new File ("text.txt");
     
+   // dialoguePanel.setLayout(null);
+    
     //add the images (imageLabel on top of bg)
-    setContentPane(bg);
-    imageLabel.setBounds(-3,0,800,600);
-    f.add(imageLabel);
+    bgLabel.setBounds(0,0,800,600);
+    setContentPane(bgLabel);
+    
+    // imageLabel.setBounds(-3,0,800,600);
+    // f.add(imageLabel);
     
     //create a new font(I included it in the folder so go install it (if possible)for the full experience!!!!)
     Font dosis = new Font ("Dosis Light", Font.PLAIN, 21);
     
     //adjusting the font and colour of the text label
     textLabel.setFont(dosis);
-    textLabel.setBounds(30, 270, 700, 400);
-    textLabel.setForeground (Color.BLACK);
-    f.add(textLabel);
-    
-    nameLabel.setFont(dosis);
-    nameLabel.setBounds(20,214,700,400);
-    nameLabel.setForeground(Color.BLACK);
-    f.add(nameLabel);
-    
-    //add skipButton and nextButton
+    textLabel.setForeground (Color.WHITE); //set colour
+    textLabel.setBounds (40, 375, 400, 200);
     
     nextButton.setBounds(670,520,70,30);
-    f.add(nextButton);
+    nextButton.setOpaque(false); //make button background transparent
+    nextButton.setContentAreaFilled(false);
+    nextButton.setForeground(Color.WHITE);
+    nextButton.setSize(150,100);
     nextButton.addActionListener(this);
     
-    try {fileInput = new Scanner(file);}
-    catch (FileNotFoundException e ){System.out.println("File not found");}
+    dialoguePanel.setBounds(30, 365, 725, 200); //set size
+    dialoguePanel.setBackground(Color.BLACK);
+   // dialoguePanel.setBackground(new Color(0,0,0,150)); //make it translucent
+    dialoguePanel.add(textLabel);
+    dialoguePanel.add(nextButton);
+    
+    f.add(dialoguePanel);
+    
+    nameLabel.setFont(dosis);
+    nameLabel.setForeground(Color.WHITE);
+    
+    namePanel.setBounds(30,300,100,50); //set size
+    namePanel.setBackground(new Color(0,0,0,150)); //make it translucent
+    namePanel.add(nameLabel);
+    f.add(namePanel);
+    
+    playerLabel.setBounds(0,50,199,316);
+    f.add(playerLabel);
+    
+    npcLabel.setBounds(500,100, 288, 288);
+    f.add(npcLabel);
+    //add skipButton and nextButton
+    
+    bgLabel.setBounds(0,0,800,600);
+    f.add(bgLabel);
+    
+   try {fileInput = new Scanner(file);}
+   catch (FileNotFoundException e ){System.out.println("File not found");}
   }//end of constructor 
   
     public VisualNovel(SimpleLinkedList<Puzzle> puzzles, SimpleLinkedList<Item> items) 
@@ -85,10 +117,11 @@ public class VisualNovel extends JFrame implements ActionListener{
     this.puzzles=puzzles;
     this.items=items;
     //add the images (imageLabel on top of bg)
-    setContentPane(bg);
-    imageLabel.setBounds(-3,0,800,600);
-    f.add(imageLabel);
+    setContentPane(bgLabel);
+    //imageLabel.setBounds(-3,0,800,600);
+    //f.add(imageLabel);
     
+    f.add(bgLabel);
     //create a new font(I included it in the folder so go install it (if possible)for the full experience!!!!)
     Font dosis = new Font ("Dosis Light", Font.PLAIN, 21);
     
@@ -106,7 +139,8 @@ public class VisualNovel extends JFrame implements ActionListener{
     //add skipButton and nextButton
     
     nextButton.setBounds(670,520,70,30);
-    f.add(nextButton);
+    dialoguePanel.add(nextButton);
+   // f.add(nextButton);
     nextButton.addActionListener(this);
     
   //  try {fileInput = new Scanner(file);}
@@ -147,6 +181,7 @@ public class VisualNovel extends JFrame implements ActionListener{
           }
           else{
             nameLabel.setText("Player");
+  
             //create a pop up asking for answer
             JFrame frame = new JFrame();
             String temp = JOptionPane.showInputDialog("Please enter your answer:");
@@ -173,11 +208,6 @@ public class VisualNovel extends JFrame implements ActionListener{
           }
         }
         turn++;
-        //}
-      //catch(Exception E){
-        //when there aren't anymore lines, get rid of this
-      //  f.dispose();
-     // } 
     }
     }//end of action listening 
   
