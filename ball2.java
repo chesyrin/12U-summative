@@ -1,3 +1,6 @@
+/*
+ * Main gui 
+ */
 import javax.swing.*;  
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -95,20 +98,27 @@ public class ball2 {
         if(y > 320){//lower bounds
           y = 320;  
         }
-        
         //tako boundary test
-        if (x>tako.getX() && x<(tako.getX() + tako.getSx()) && y<tako.getY() && (y>tako.getY() - tako.getSy())){
-          if (x>tako.getX()){//down, trying to go up
-            y++;
+        //currently left, trying to move right
+        //if the character sprite is inside the object image
+        if (x>tako.getX() && x<tako.getX() + 2*tako.getSx()  && //x-bounds
+            y > tako.getY() && y < (tako.getY() + tako.getSy())){//y-bounds
+          //teleport the player sprite to the appropriate side of the object image
+          //if it's on the left side of the image
+          if (x - 1 == tako.getX()){
+            x = tako.getX();
           }
-          else if (x <tako.getX() + tako.getSx()) {
-          // x++;
+          //if it's on the right side of the image
+          else if (x + 1 == tako.getX() + 2*tako.getSx()) {
+            x = tako.getX() + 2*tako.getSx();
           }
-          else if (y<tako.getY()){//right, trying to go left
-          x++;
+          //if it's on the top of the image
+          else if (y - 1 == tako.getY()){
+            y = tako.getY();
           }
-          else if (y>tako.getY() - tako.getSy()){
-         //   y--;
+          //else on bottom of image
+          else {
+            y = tako.getY() + tako.getSy();
           }
         }
         //set x and  y
@@ -222,7 +232,8 @@ public class ball2 {
     p.setLayout(null);
     //add tako sprite test
     JLabel takoTemp = tako.getSprite();
-    takoTemp.setBounds(tako.getX(), tako.getY(), tako.getSx(), tako.getSy());
+    takoTemp.setBounds(tako.getX() + tako.getSx(), tako.getY() +  tako.getSy(), 
+                       tako.getSx(), tako.getSy());//location (x,y), size(x,y)
     p.add(takoTemp);
     //add the keyboard listener
     textField.setBounds(0, 0, 20, 20);
