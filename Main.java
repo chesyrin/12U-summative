@@ -70,26 +70,35 @@ public class Main {
       else{
         puzzles.clear();
       }
-      
-      System.out.println ("\nStarting size:"+inventory.size());
       //if more than one item in inventory
       if (inventory.size()>2){
-        System.out.println ("YES");
         inventory.remove(0); //need to initialize inventory once gameplay starts
       }
       else{
-        System.out.println ("yes");
         inventory.clear();
       }
-      
-      //debugging, check if files have been read in correctly
-      for (int i=0; i<inventory.size(); i++){
-        System.out.println (inventory.get(i).getDesc());
-      }
-      System.out.println ("Ending size:"+inventory.size() + "\n");
       return true;
     }
     return false;
+  }
+  
+  /* checkItem method
+   * Check if the player is standing in front of an item when they try to pick it up
+   * @param x - x coordinate of the player
+   * @param y - y coordinate of the player
+   * @return boolean - if there is an item or not
+   */
+  public boolean checkItem (int x, int y){
+    for (i = 0; i< items.size(); i++){
+      //if user's x is within object's values
+      if (items.get(i).getX()-10 < x && x < items.get(i).getX()+100){
+        //if user's y is between y1 and y2
+        if (items.get(i).getY()-10 < y && y < items.get(i).getY()+100){
+          return true;
+        }
+      }
+    }
+    return false; //not in front of an object
   }
   
   public static void main(String [] args){
@@ -98,6 +107,7 @@ public class Main {
    
     readItems();
     readPuzzles();
+    
     for (int i=0; i<4; i++){
       inventory.add(items.get(i));
     }
