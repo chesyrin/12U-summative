@@ -2,11 +2,12 @@
  * Main gui 
  */
 import javax.swing.*;  
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.concurrent.TimeUnit;
 
-public class ball2 {
+public class ball2{
   Object tako = new Object();
   JFrame frame = new JFrame("Key Listener");
   JPanel p = new JPanel();
@@ -122,13 +123,13 @@ public class ball2 {
           }
         }
         //set x and  y
-          else {
-        x += velx;
-        y += vely;
-          }
-
+        else {
+          x += velx;
+          y += vely;
+        }
+        
         //set animation
-        if (vely == 1){//down
+        if (vely == 2){//down
           if (count%4 == 0 || count%4 ==2){
             reset();
             frontAni[0].setVisible(true);
@@ -143,7 +144,7 @@ public class ball2 {
             frontAni[2].setVisible(true);
             frontAni[2].setLocation(x,y);}
         }
-        else if (vely == -1){//up
+        else if (vely == -2){//up
           if (count%4 == 0 || count%4 ==2){
             reset();
             backAni[0].setVisible(true);
@@ -158,8 +159,8 @@ public class ball2 {
             backAni[2].setVisible(true);
             backAni[2].setLocation(x,y);}
         }
-        else if (velx == 1){//right
-           if (count%4 == 0 || count%4 ==2){
+        else if (velx == 2){//right
+          if (count%4 == 0 || count%4 ==2){
             reset();
             rightAni[1].setVisible(true);
             rightAni[1].setLocation(x,y);}
@@ -174,8 +175,8 @@ public class ball2 {
             rightAni[0].setLocation(x,y);}
           
         }
-        else if(velx == -1) {//left
-           if (count%4 == 0 || count%4 ==2){
+        else if(velx == -2) {//left
+          if (count%4 == 0 || count%4 ==2){
             reset();
             leftAni[1].setVisible(true);
             leftAni[1].setLocation(x,y);}
@@ -205,80 +206,122 @@ public class ball2 {
         vely=0;
       }
       
-  public void keyTyped(KeyEvent event) {
+      //readItems();
+      public void keyTyped(KeyEvent event) {
+        System.out.println (event.getKeyChar());
         //for action buttons
-        //z for interacting with objects
-        if (event.getKeyChar()=='z'){
-          boolean isItem = Main.checkItem();
-          if (isItem==true){
-            //3 possible item locations
-            boolean alreadyInside = false;
-            if (x>10 && x<100 && y>10 && y<100){ //example coordinates, please put in the correct ones later
-              //try to find the item in the inventory to prevent duplicates
-              for (i=0; i<inventory.size(); i++){
-                if (Main.inventory.get(i).getName().equals("Envelope")){
-                  alreadyInside=true;
-                }
-              }
-              
-              if (alreadyInside==false){
-                //add envelope into inventory
-                Main.inventory.add(Main.items.get(0));
-              }
+        //x for interacting with objects
+        if (event.getKeyChar()=='x'){
+          boolean isItem = Main.checkItem(x,y);
+          // if (isItem==true){
+          System.out.println ("JJJJ");
+          //3 possible item locations
+          boolean alreadyInside = false;
+          //if (x>10 && x<100 && y>10 && y<100){ //example coordinates, please put in the correct ones later
+          //try to find the item in the inventory to prevent duplicates
+          for (int i=0; i<Main.getInventory().size(); i++){
+            if (Main.getInventory().get(i).getName().equals("Envelope")){
+              System.out.println ("hi");
+              alreadyInside=true;
             }
-            else if (){
-              for (i=0; i<inventory.size(); i++){
-                if (Main.inventory.get(i).getName().equals("Fork")){
-                  alreadyInside=true;
-                }
-              }
-              
-              if (alreadyInside==false){
-                //add fork into inventory
-                Main.inventory.add(Main.items.(get(1)));
-              }
-            }
-            else if (){
-              for (i=0; i<inventory.size(); i++){
-                if (Main.inventory.get(i).getName().equals("Mirror")){
-                  alreadyInside=true;
-                }
-              }
-              
-              if (alreadyInside==false){
-                //add envelope into inventory
-                Main.inventory.add(Main.items.(get(2)));
-              }
-            }
-            System.out.println ("Item added into inventory!");
           }
+          //}
+          System.out.println (alreadyInside);
+          if (alreadyInside==false){
+            System.out.println (Main.getItems().get(0).getName());
+            //add envelope into inventory
+            Main.getInventory().add(Main.getItems().get(0));
+          }
+//            if (alreadyInside==false){
+//              //add envelope into inventory
+//              inventory.add(items.get(0));
+//            }
+          // }
+//            else if (){
+//              for (i=0; i<inventory.size(); i++){
+//                if (Main.inventory.get(i).getName().equals("Fork")){
+//                  alreadyInside=true;
+//                }
+//              }
+//              
+//              if (alreadyInside==false){
+//                //add fork into inventory
+//                Main.inventory.add(Main.items.(get(1)));
+//              }
+//            }
+//            else if (){
+//              for (i=0; i<inventory.size(); i++){
+//                if (Main.inventory.get(i).getName().equals("Mirror")){
+//                  alreadyInside=true;
+//                }
+//              }
+          
+//              if (alreadyInside==false){
+//                //add envelope into inventory
+//                Main.inventory.add(Main.items.get(2));
+//              }
+//        }
         }
-        //for opening the door
-        else if (event.getKeyChar()=='x'){
-          if (x>200 && x<300 && y>10 && y<200 && Main.inventory.get(0).getName.equals("Key")){ //use door's coordinates
+        //press c for inventory
+        else if (event.getKeyChar()=='c'){
+          JFrame frame = new JFrame("Inventory");
+          JPanel panel = new JPanel();
+          SimpleLinkedList <JLabel> itemName = new  SimpleLinkedList <JLabel>();
+          SimpleLinkedList <JTextArea> itemDesc = new  SimpleLinkedList <JTextArea>();
+          Font boldFont = new Font("Courier", Font.BOLD,12);
+          
+          for (int i=0; i<Main.getInventory().size(); i++){
+            itemName.add(new JLabel(Main.getInventory().get(i).getName()));
+            itemName.get(i).setFont(boldFont);
+            
+            itemDesc.add(new JTextArea(Main.getInventory().get(i).getDesc()));
+            itemDesc.get(i).setLineWrap(true); //so that the text doesn't go beyond the frame
+            itemDesc.get(i).setWrapStyleWord(true);
+            
+            panel.add(itemName.get(i)); //add items to panel
+            panel.add(itemDesc.get(i));
+          }
+          frame.add(panel);
+          
+          frame.setSize(400, 800);
+          frame.setVisible(true);
+        }
+        //press z to talk to npc
+        else if (event.getKeyChar()=='z'){
+         // if (x>10 && x<100 && y>40 && y<300){ //if user is standing in front of NPC
+            new VisualNovel (Main.getPuzzles(), Main.getItems());
+          //}
+        }
+        
+        //press v to open the door
+        else if (event.getKeyChar()=='v'){
+          if (x>200 && x<300 && y>10 && y<200 && Main.getInventory().get(0).getName().equals("Key")){ //use door's coordinates
             //triger the ending dialogue
             new VisualNovel ("end.txt");
           }
         }
-      }
+        System.out.println ("\nItem added into inventory!");
+        for (int i=0; i<Main.getInventory().size(); i++){
+          System.out.println (Main.getInventory().get(i).getName());
+        }
+      };
       
       private void keyboardLocation(int keybrd) {
         if (keybrd == KeyEvent.VK_DOWN){
-          vely = 1;
+          vely = 2;
           velx = 0;
         }
         if (keybrd == KeyEvent.VK_UP){
-          vely = -1;
+          vely = -2;
           velx = 0;
         }
         if (keybrd == KeyEvent.VK_LEFT){
           vely = 0;
-          velx = -1;
+          velx = -2;
         }
         if (keybrd == KeyEvent.VK_RIGHT){
           vely = 0;
-          velx = 1;
-          
+          velx = 2;
         }
       }
       
@@ -290,9 +333,7 @@ public class ball2 {
                        tako.getSx(), tako.getSy());//location (x,y), size(x,y)
     p.add(takoTemp);
     //add the keyboard listener
-    textField.setBounds(0, 0, 20, 20);
-    textField.addKeyListener(listener);
-    p.add(textField);
+    frame.addKeyListener(listener);
     
     //add bg image
     ImageIcon bgImage = new ImageIcon("IMAGE.jpg");
@@ -315,7 +356,9 @@ public class ball2 {
     }
   }
   public static void main(String args[]) {
+    //readItems();
     new ball2();
     
   }
+  
 }

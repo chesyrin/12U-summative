@@ -28,6 +28,7 @@ public class Main {
         newItem.setDesc(read.nextLine());
         
         items.add(newItem);
+        read.close();
       }
     }
     catch(Exception e){
@@ -48,6 +49,7 @@ public class Main {
         newPuzzle.setQ(read.nextLine());
         
         puzzles.add(newPuzzle);
+        read.close();
       }
     }
     catch(Exception e){
@@ -88,8 +90,8 @@ public class Main {
    * @param y - y coordinate of the player
    * @return boolean - if there is an item or not
    */
-  public boolean checkItem (int x, int y){
-    for (i = 0; i< items.size(); i++){
+  public static boolean checkItem (int x, int y){
+    for (int i = 0; i< items.size(); i++){
       //if user's x is within object's values
       if (items.get(i).getX()-10 < x && x < items.get(i).getX()+100){
         //if user's y is between y1 and y2
@@ -104,15 +106,28 @@ public class Main {
   public static void main(String [] args){
     System.out.println ("i don't know anything anymore: an original game by tash and jul");
     System.out.println ("(mrs. martin pls give us 100)\n");
-   
+    
     readItems();
     readPuzzles();
     
     for (int i=0; i<4; i++){
-      inventory.add(items.get(i));
+      System.out.println (items.get(i).getName());
     }
     
-    new VisualNovel(puzzles, items);
+    new ball2();
+    new VisualNovel("text.txt");
   }
   
+  //get methods
+  public static SimpleLinkedList<Item> getItems(){
+    return items;
+  }
+  
+  public static SimpleLinkedList<Item> getInventory(){
+    return inventory;
+  }
+  
+  public static SimpleLinkedList<Puzzle> getPuzzles(){
+    return puzzles;
+  }
 }

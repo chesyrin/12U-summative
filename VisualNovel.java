@@ -117,8 +117,8 @@ public class VisualNovel extends JFrame implements ActionListener{
     this.puzzles=puzzles;
     this.items=items;
     //add the images (imageLabel on top of bg)
+    bgLabel.setBounds(0,0,800,600);
     setContentPane(bgLabel);
-    //imageLabel.setBounds(-3,0,800,600);
     //f.add(imageLabel);
     
     f.add(bgLabel);
@@ -127,31 +127,50 @@ public class VisualNovel extends JFrame implements ActionListener{
     
     //adjusting the font and colour of the text label
     textLabel.setFont(dosis);
-    textLabel.setBounds(30, 270, 700, 400);
-    textLabel.setForeground (Color.BLACK);
-    f.add(textLabel);
-    
-    nameLabel.setFont(dosis);
-    nameLabel.setBounds(20,214,700,400);
-    nameLabel.setForeground(Color.BLACK);
-    f.add(nameLabel);
+    textLabel.setForeground (Color.WHITE); //set colour
+    textLabel.setBounds (40, 375, 400, 200);
     
     //add skipButton and nextButton
-    
     nextButton.setBounds(670,520,70,30);
-    dialoguePanel.add(nextButton);
-   // f.add(nextButton);
+    nextButton.setOpaque(false); //make button background transparent
+    nextButton.setContentAreaFilled(false);
+    nextButton.setForeground(Color.WHITE);
+    nextButton.setSize(150,100);
     nextButton.addActionListener(this);
     
-  //  try {fileInput = new Scanner(file);}
-   // catch (FileNotFoundException e ){System.out.println("File not found");}
-  }//end of constructor 
+    dialoguePanel.setBounds(30, 365, 725, 200); //set size
+    dialoguePanel.setBackground(Color.BLACK);
+   // dialoguePanel.setBackground(new Color(0,0,0,150)); //make it translucent
+    dialoguePanel.add(textLabel);
+    dialoguePanel.add(nextButton);
     
-  public void actionPerformed (ActionEvent event)
-  {
-    //for text files
-    if (!fileName.equals("")){
-      String temp = "";
+    f.add(dialoguePanel);
+    
+    nameLabel.setFont(dosis);
+    nameLabel.setForeground(Color.WHITE);
+    
+    namePanel.setBounds(30,300,100,50); //set size
+    namePanel.setBackground(new Color(0,0,0,150)); //make it translucent
+    namePanel.add(nameLabel);
+    f.add(namePanel);
+    
+    playerLabel.setBounds(0,50,199,316);
+    f.add(playerLabel);
+    
+    npcLabel.setBounds(500,100, 288, 288);
+    f.add(npcLabel);
+    
+    bgLabel.setBounds(0,0,800,600);
+    f.add(bgLabel);
+    //  try {fileInput = new Scanner(file);}
+    // catch (FileNotFoundException e ){System.out.println("File not found");}
+    }//end of constructor 
+    
+    public void actionPerformed (ActionEvent event)
+    {
+      //for text files
+      if (!fileName.equals("")){
+        String temp = "";
       try{
         //set the next lines
         temp = fileInput.nextLine();
