@@ -205,7 +205,61 @@ public class ball2 {
         vely=0;
       }
       
-      public void keyTyped(KeyEvent event) {
+  public void keyTyped(KeyEvent event) {
+        //for action buttons
+        //z for interacting with objects
+        if (event.getKeyChar()=='z'){
+          boolean isItem = Main.checkItem();
+          if (isItem==true){
+            //3 possible item locations
+            boolean alreadyInside = false;
+            if (x>10 && x<100 && y>10 && y<100){ //example coordinates, please put in the correct ones later
+              //try to find the item in the inventory to prevent duplicates
+              for (i=0; i<inventory.size(); i++){
+                if (Main.inventory.get(i).getName().equals("Envelope")){
+                  alreadyInside=true;
+                }
+              }
+              
+              if (alreadyInside==false){
+                //add envelope into inventory
+                Main.inventory.add(Main.items.get(0));
+              }
+            }
+            else if (){
+              for (i=0; i<inventory.size(); i++){
+                if (Main.inventory.get(i).getName().equals("Fork")){
+                  alreadyInside=true;
+                }
+              }
+              
+              if (alreadyInside==false){
+                //add fork into inventory
+                Main.inventory.add(Main.items.(get(1)));
+              }
+            }
+            else if (){
+              for (i=0; i<inventory.size(); i++){
+                if (Main.inventory.get(i).getName().equals("Mirror")){
+                  alreadyInside=true;
+                }
+              }
+              
+              if (alreadyInside==false){
+                //add envelope into inventory
+                Main.inventory.add(Main.items.(get(2)));
+              }
+            }
+            System.out.println ("Item added into inventory!");
+          }
+        }
+        //for opening the door
+        else if (event.getKeyChar()=='x'){
+          if (x>200 && x<300 && y>10 && y<200 && Main.inventory.get(0).getName.equals("Key")){ //use door's coordinates
+            //triger the ending dialogue
+            new VisualNovel ("end.txt");
+          }
+        }
       }
       
       private void keyboardLocation(int keybrd) {
