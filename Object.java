@@ -6,15 +6,22 @@ import javax.swing.*;
 public class Object {
   
   //position x & y positions
-  private int x = 150;
-  private int y = 150;
+  private int x;
+  private int y;
   
   //size x & y dimensions
-  private int sx = 38;
-  private int sy = 46;
+  private int sx;
+  private int sy;
   
-  //the sprite
-  private JLabel sprite = new JLabel(new ImageIcon("tako.png"));
+  private String description;
+  
+  public Object(String x, String y, String sx, String sy, String descr){
+    this.x = Integer.parseInt(x);
+    this.y = Integer.parseInt(y);
+    this.sx = Integer.parseInt(sx);
+    this.sy = Integer.parseInt(sy);
+    this.description = descr;
+  }
   
   public int getX(){
     return x;
@@ -28,7 +35,7 @@ public class Object {
   public int getSy(){
     return sy;
   }
-  public JLabel getSprite(){
-    return sprite;
+  public String getDescr(){
+    return description;
   }
 }
