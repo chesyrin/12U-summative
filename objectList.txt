@@ -1,0 +1,7 @@
+0 10 150 100 bookshelf
+149 10 220 100 plants
+446 10 516 100 tako
+518 10 600 118 me
+404 174 548 294 table
+0 168 82 322 bed
+84 304 174 322 bedside table
