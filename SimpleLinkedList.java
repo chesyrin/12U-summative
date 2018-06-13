@@ -78,4 +78,22 @@ class SimpleLinkedList<E> {
     }
     return counter;
   }
+    /* sort
+   * sorts a list alphabetically from A to Z(insertion sort)
+   * @param a     the list to be sorted
+   */
+  public static void sort(DoubleLinkedList<Items> a){
+    for (int i=1; i<a.size(); i++){ //starts at 2nd element
+      int index=i-1;
+//      Items tempItem = a.get(i);
+//      String item = tempItem.getName(); //pivot element
+      
+      while (index>=0 && ((a.get(index)).getName()).compareTo(item)>0){
+        a.set(index+1, a.get(index)); //move the element one position down
+        index--;
+      }
+      
+      a.set(index+1,tempItem); //insert item in proper position
+    }
+  }//end of sortAlpha
 }
