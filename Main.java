@@ -11,6 +11,7 @@ public class Main {
   private static SimpleLinkedList<Item> items = new SimpleLinkedList<Item>();
   private static SimpleLinkedList<Item> inventory = new SimpleLinkedList<Item>();
   private static SimpleLinkedList<Puzzle> puzzles = new SimpleLinkedList<Puzzle>();
+  private static int endMusic=1;
   
   /* readItems method
    * Reads information in from items text file into list
@@ -28,8 +29,8 @@ public class Main {
         newItem.setDesc(read.nextLine());
         
         items.add(newItem);
-        read.close();
       }
+      read.close();
     }
     catch(Exception e){
       System.out.println("There is no text file called items.");
@@ -49,8 +50,8 @@ public class Main {
         newPuzzle.setQ(read.nextLine());
         
         puzzles.add(newPuzzle);
-        read.close();
       }
+      read.close();
     }
     catch(Exception e){
       System.out.println("There is no text file called puzzles.");
@@ -73,8 +74,12 @@ public class Main {
         puzzles.clear();
       }
       //if more than one item in inventory
-      if (inventory.size()>2){
-        inventory.remove(0); //need to initialize inventory once gameplay starts
+      if (inventory.size()>1){
+        for (int i=0; i<inventory.size(); i++){
+          if (inventory.get(i).equals(item)){
+            inventory.remove(i); //need to initialize inventory once gameplay starts
+          }
+        }
       }
       else{
         inventory.clear();
@@ -103,19 +108,42 @@ public class Main {
     return false; //not in front of an object
   }
   
+  /* threadMusic method
+   * Method to start the music thread
+   */
+  public static class threadMusic implements Runnable //implements Runnable because it is executed by a thread
+  {
+    //method to tell program what to thread
+    public void run()
+    {
+      try
+      {
+        Music.play(); //start playing the music
+      }
+      catch (Exception e)
+      {
+        System.out.println ("Error: " + e);
+      }
+    }
+  }
+  
   public static void main(String [] args){
+    Thread music = new Thread (new threadMusic());
+    music.start (); //start the thread
+    
     System.out.println ("i don't know anything anymore: an original game by tash and jul");
     System.out.println ("(mrs. martin pls give us 100)\n");
     
     readItems();
     readPuzzles();
     
-    for (int i=0; i<4; i++){
-      System.out.println (items.get(i).getName());
-    }
+//    for (int i=2; i>=0; i--){
+//      inventory.add(items.get(i));
+//     // System.out.println (items.get(i).getName());
+//    }
     
-    new ball2();
-    new VisualNovel("text.txt");
+    //  System.out.println (inventory.size());
+    new Menu(); //new Menu class
   }
   
   //get methods
@@ -129,5 +157,10 @@ public class Main {
   
   public static SimpleLinkedList<Puzzle> getPuzzles(){
     return puzzles;
+  }
+  
+  //set methods
+  public static void setEndMusic(){
+    endMusic=0;
   }
 }
