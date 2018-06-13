@@ -11,12 +11,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class VisualNovel extends JFrame implements ActionListener{
+public class VisualNovel extends JFrame{
   
   JFrame f = new JFrame();
   JButton nextButton = new JButton ("Next");
-  JLabel textLabel = new JLabel("~Sample text 1~");
-  JLabel nameLabel = new JLabel("Name");
+  JButton backButton = new JButton("WAIT GO BACK I'M NOT READY");
+  JLabel textLabel = new JLabel("Hi!");
+  JLabel nameLabel = new JLabel("NPC");
   ImageIcon image = new ImageIcon("dialogue1.png");
   JLabel imageLabel = new JLabel(image);
   Scanner fileInput;
@@ -30,7 +31,7 @@ public class VisualNovel extends JFrame implements ActionListener{
   
   ImageIcon nonPlayer = new ImageIcon("npc.png");
   ImageIcon player = new ImageIcon("player.png");
-  ImageIcon bg = new ImageIcon ("bg.png");
+  ImageIcon bg = new ImageIcon ("bg.jpg");
   JLabel npcLabel = new JLabel(nonPlayer);
   JLabel playerLabel = new JLabel (player);
   JLabel bgLabel = new JLabel (bg);
@@ -48,7 +49,7 @@ public class VisualNovel extends JFrame implements ActionListener{
     f.setLayout(null);
     f.setLocationRelativeTo(null);
     
-    File file = new File ("text.txt");
+    File file = new File (fileName);
     
    // dialoguePanel.setLayout(null);
     
@@ -72,13 +73,21 @@ public class VisualNovel extends JFrame implements ActionListener{
     nextButton.setContentAreaFilled(false);
     nextButton.setForeground(Color.WHITE);
     nextButton.setSize(150,100);
-    nextButton.addActionListener(this);
+    nextButton.addActionListener(new NextListener());
+    
+    backButton.setOpaque(false); //make button background transparent
+    backButton.setContentAreaFilled(false);
+    backButton.setForeground(Color.WHITE);
+    backButton.setSize(150,100);
+    backButton.addActionListener(new BackListener());
+    backButton.setVisible(false);
     
     dialoguePanel.setBounds(30, 365, 725, 200); //set size
     dialoguePanel.setBackground(Color.BLACK);
    // dialoguePanel.setBackground(new Color(0,0,0,150)); //make it translucent
     dialoguePanel.add(textLabel);
     dialoguePanel.add(nextButton);
+    dialoguePanel.add(backButton);
     
     f.add(dialoguePanel);
     
@@ -86,7 +95,7 @@ public class VisualNovel extends JFrame implements ActionListener{
     nameLabel.setForeground(Color.WHITE);
     
     namePanel.setBounds(30,300,100,50); //set size
-    namePanel.setBackground(new Color(0,0,0,150)); //make it translucent
+    namePanel.setBackground(Color.BLACK); //make it translucent
     namePanel.add(nameLabel);
     f.add(namePanel);
     
@@ -136,13 +145,21 @@ public class VisualNovel extends JFrame implements ActionListener{
     nextButton.setContentAreaFilled(false);
     nextButton.setForeground(Color.WHITE);
     nextButton.setSize(150,100);
-    nextButton.addActionListener(this);
+    nextButton.addActionListener(new NextListener());
+    
+    backButton.setOpaque(false); //make button background transparent
+    backButton.setContentAreaFilled(false);
+    backButton.setForeground(Color.WHITE);
+    backButton.setSize(150,100);
+    backButton.addActionListener(new BackListener());
+    backButton.setVisible(false);
     
     dialoguePanel.setBounds(30, 365, 725, 200); //set size
     dialoguePanel.setBackground(Color.BLACK);
    // dialoguePanel.setBackground(new Color(0,0,0,150)); //make it translucent
     dialoguePanel.add(textLabel);
     dialoguePanel.add(nextButton);
+    dialoguePanel.add(backButton);
     
     f.add(dialoguePanel);
     
@@ -150,7 +167,7 @@ public class VisualNovel extends JFrame implements ActionListener{
     nameLabel.setForeground(Color.WHITE);
     
     namePanel.setBounds(30,300,100,50); //set size
-    namePanel.setBackground(new Color(0,0,0,150)); //make it translucent
+    namePanel.setBackground(Color.BLACK); //make it translucent
     namePanel.add(nameLabel);
     f.add(namePanel);
     
@@ -166,70 +183,109 @@ public class VisualNovel extends JFrame implements ActionListener{
     // catch (FileNotFoundException e ){System.out.println("File not found");}
     }//end of constructor 
     
-    public void actionPerformed (ActionEvent event)
-    {
-      //for text files
-      if (!fileName.equals("")){
-        String temp = "";
-      try{
-        //set the next lines
-        temp = fileInput.nextLine();
-        nameLabel.setText(temp.substring(0, temp.indexOf(" ")));
-        textLabel.setText(temp.substring(temp.indexOf(" ")+1));
-      }
-      catch(Exception E){
-        //when there aren't anymore lines, get rid of this
+    class BackListener implements ActionListener{
+      /* actionPerformed method
+       * Runs if the next out button is pressed
+       * @param event - the action that is performed
+       */
+      public void actionPerformed (ActionEvent event)
+      {
+        //dispose of the frame
         f.dispose();
       }
     }
-    //for arrays 
-    else{
-      //try{
-        if (turn%2==0){
-          nameLabel.setText("NPC");
-          if (puzzles.size()>0){
-            textLabel.setText(puzzles.get(0).getQ());
+    class NextListener implements ActionListener{
+      /* actionPerformed method
+       * Runs if the next out button is pressed
+       * @param event - the action that is performed
+       */
+      public void actionPerformed (ActionEvent event)
+      {
+        //for text files
+        if (!fileName.equals("")){
+          String temp = "";
+          try{
+            //set the next lines
+            temp = fileInput.nextLine();
+            nameLabel.setText(temp.substring(0, temp.indexOf(" ")));
+            textLabel.setText(temp.substring(temp.indexOf(" ")+1));
           }
-          else{
-            textLabel.setText("Wow! You solved all the puzzles!");
+          catch(Exception E){
+            //when there aren't anymore lines, get rid of this
+            f.dispose();
+            if (fileName.equals("end.txt")){
+              System.exit(0); //stop all other processes (music)
+            }
           }
         }
+        //for arrays 
         else{
-          if (textLabel.getText().equals("Wow! You solved all the puzzles!")){
-            f.dispose();
-          }
-          else{
-            nameLabel.setText("Player");
-  
-            //create a pop up asking for answer
-            JFrame frame = new JFrame();
-            String temp = JOptionPane.showInputDialog("Please enter your answer:");
-            textLabel.setText(temp);
-            
-            //check if answer is valid
-            System.out.println (puzzles.get(0).getQ()+"\n");
-            
-            //debugging, check if files have been read in correctly
-            for (int i=0; i<items.size(); i++){
-              System.out.println (items.get(i).getName());
-            }
-            
-            //System.out.println (items.get(Integer.parseInt(temp)).getName() + "\n");
-            
-            boolean correct = Main.solveRiddle(puzzles.get(0), items.get(Integer.parseInt(temp)));
+          backButton.setVisible(true);
+          //try{
+          if (turn%2==0){
             nameLabel.setText("NPC");
-            if (correct==true){
-              textLabel.setText("I can't belive you got that right!");
+            if (puzzles.size()>0){
+              textLabel.setText(puzzles.get(0).getQ());
             }
             else{
-              textLabel.setText("You're terrible at this...");
+              textLabel.setText("Wow! You solved all the puzzles!");
             }
           }
+          else{
+            if (textLabel.getText().equals("Wow! You solved all the puzzles!")){
+              f.dispose();
+            }
+            else{
+              JFrame f = new JFrame("Inventory");
+              nameLabel.setText("Player");
+              ball2.inventoryPopUp(f);
+              boolean answer=false;//if the answer if valid or not
+              int tempInt=-1;
+              
+              while (answer==false){
+                //create a pop up asking for answer
+                JFrame frame = new JFrame();
+                String temp = JOptionPane.showInputDialog("Please enter your answer:");
+                textLabel.setText(temp);
+                //attempt to convert to integer
+                if (checkInt(temp)==true){
+                  tempInt=Integer.parseInt(temp);
+                }
+                if (tempInt>-1 && tempInt<Main.getInventory().size()){
+                  answer=true; //valid answer
+                }
+              }
+              
+              //boolean correct = Main.solveRiddle(puzzles.get(0), items.get(Integer.parseInt(temp)));
+              boolean correct = Main.solveRiddle(puzzles.get(0), Main.getInventory().get(tempInt));
+              nameLabel.setText("NPC");
+              if (correct==true){
+                textLabel.setText("I can't belive you got that right!");
+              }
+              else{
+                textLabel.setText("You're terrible at this...");
+              }
+              f.dispose(); //dispose of the frame
+            }
+          }
+          turn++;
         }
-        turn++;
-    }
-    }//end of action listening 
+      }//end of action listening 
+      }
   
+    public static boolean checkInt(String str){
+      if (str.length()==0){
+        return false; //nothing in the string
+      }
+      for (int i=0; i<str.length(); i++){
+        char temp = str.charAt(i);
+        if (Character.isDigit(temp)==false){
+          return false;
+        }
+      }
+      return true;
+    }
+    
   public static void main(String[] args) 
   { 
     new VisualNovel("text.txt");
