@@ -25,4 +25,7 @@ public T getItem(){ //gets the value of item
   return this.item;
 }
 
+public void setItem(T item){
+  this.item=item;
+}
 }

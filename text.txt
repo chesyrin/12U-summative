@@ -1,0 +1,13 @@
+Tako Welcome to the void!
+Player Isn't this your room?
+Tako Welcome to the void *aka my room*!
+Player Ok...
+Tako Because the programmers have nothing else to do,
+Tako you're stuck here until you solve my puzzle!
+Player ugh 
+Tako Don't be like that.
+Tako Look around the room for objects you can pick up.
+Tako When you think you have enough, press 'c' and select the object that answer my riddles!
+Tako You can leave once you finish that.
+Player I don't have a choice do I.
+Tako Nope! Have fun!

@@ -13,28 +13,23 @@ import java.awt.event.*;
 
 public class VisualNovel extends JFrame{
   
-  JFrame f = new JFrame();
+  JFrame f = new JFrame();//main frame
   JButton nextButton = new JButton ("Next");
   JButton backButton = new JButton("WAIT GO BACK I'M NOT READY");
-  JLabel textLabel = new JLabel("Hi!");
-  JLabel nameLabel = new JLabel("NPC");
-  ImageIcon image = new ImageIcon("dialogue1.png");
-  JLabel imageLabel = new JLabel(image);
+  JLabel textLabel = new JLabel("Hello!");
+  JLabel nameLabel = new JLabel("Tako");
   Scanner fileInput;
   String fileName="";
   File file;
   SimpleLinkedList<Puzzle> puzzles;
   SimpleLinkedList<Item> items;
   int turn=0;
+  JFrame invFrame = new JFrame("Inventory");//inventory frame
   JPanel dialoguePanel = new JPanel();
   JPanel namePanel = new JPanel();
   
-  ImageIcon nonPlayer = new ImageIcon("npc.png");
-  ImageIcon player = new ImageIcon("player.png");
-  ImageIcon bg = new ImageIcon ("bg.jpg");
-  JLabel npcLabel = new JLabel(nonPlayer);
-  JLabel playerLabel = new JLabel (player);
-  JLabel bgLabel = new JLabel (bg);
+  JLabel npcLabel = new JLabel(new ImageIcon("npc.png"));
+  JLabel playerLabel = new JLabel (new ImageIcon("player.png"));
   
   //start of constructor
   public VisualNovel(String fileName) 
@@ -50,17 +45,8 @@ public class VisualNovel extends JFrame{
     f.setLocationRelativeTo(null);
     
     File file = new File (fileName);
-    
-   // dialoguePanel.setLayout(null);
-    
-    //add the images (imageLabel on top of bg)
-    bgLabel.setBounds(0,0,800,600);
-    setContentPane(bgLabel);
-    
-    // imageLabel.setBounds(-3,0,800,600);
-    // f.add(imageLabel);
-    
-    //create a new font(I included it in the folder so go install it (if possible)for the full experience!!!!)
+
+    //create a new font
     Font dosis = new Font ("Dosis Light", Font.PLAIN, 21);
     
     //adjusting the font and colour of the text label
@@ -84,7 +70,7 @@ public class VisualNovel extends JFrame{
     
     dialoguePanel.setBounds(30, 365, 725, 200); //set size
     dialoguePanel.setBackground(Color.BLACK);
-   // dialoguePanel.setBackground(new Color(0,0,0,150)); //make it translucent
+//    dialoguePanel.setBackground(new Color(0,0,0,200)); //make it translucent
     dialoguePanel.add(textLabel);
     dialoguePanel.add(nextButton);
     dialoguePanel.add(backButton);
@@ -104,10 +90,6 @@ public class VisualNovel extends JFrame{
     
     npcLabel.setBounds(500,100, 288, 288);
     f.add(npcLabel);
-    //add skipButton and nextButton
-    
-    bgLabel.setBounds(0,0,800,600);
-    f.add(bgLabel);
     
    try {fileInput = new Scanner(file);}
    catch (FileNotFoundException e ){System.out.println("File not found");}
@@ -125,13 +107,8 @@ public class VisualNovel extends JFrame{
     
     this.puzzles=puzzles;
     this.items=items;
-    //add the images (imageLabel on top of bg)
-    bgLabel.setBounds(0,0,800,600);
-    setContentPane(bgLabel);
-    //f.add(imageLabel);
-    
-    f.add(bgLabel);
-    //create a new font(I included it in the folder so go install it (if possible)for the full experience!!!!)
+
+    //create a new font
     Font dosis = new Font ("Dosis Light", Font.PLAIN, 21);
     
     //adjusting the font and colour of the text label
@@ -156,7 +133,6 @@ public class VisualNovel extends JFrame{
     
     dialoguePanel.setBounds(30, 365, 725, 200); //set size
     dialoguePanel.setBackground(Color.BLACK);
-   // dialoguePanel.setBackground(new Color(0,0,0,150)); //make it translucent
     dialoguePanel.add(textLabel);
     dialoguePanel.add(nextButton);
     dialoguePanel.add(backButton);
@@ -176,11 +152,11 @@ public class VisualNovel extends JFrame{
     
     npcLabel.setBounds(500,100, 288, 288);
     f.add(npcLabel);
-    
-    bgLabel.setBounds(0,0,800,600);
-    f.add(bgLabel);
-    //  try {fileInput = new Scanner(file);}
-    // catch (FileNotFoundException e ){System.out.println("File not found");}
+
+    //print out inventory for debug
+    for (int i=0; i<Main.getInventory().size(); i++){
+      System.out.println (Main.getInventory().get(i).getName());
+    }
     }//end of constructor 
     
     class BackListener implements ActionListener{
@@ -214,7 +190,7 @@ public class VisualNovel extends JFrame{
             //when there aren't anymore lines, get rid of this
             f.dispose();
             if (fileName.equals("end.txt")){
-              System.exit(0); //stop all other processes (music)
+              System.exit(0); //ends the program
             }
           }
         }
@@ -223,72 +199,92 @@ public class VisualNovel extends JFrame{
           backButton.setVisible(true);
           //try{
           if (turn%2==0){
-            nameLabel.setText("NPC");
+            nameLabel.setText("Tako");
             if (puzzles.size()>0){
               textLabel.setText(puzzles.get(0).getQ());
             }
             else{
-              textLabel.setText("Wow! You solved all the puzzles!");
+              textLabel.setText("Wow! You solved all the puzzles! Congrats!");
             }
           }
           else{
-            if (textLabel.getText().equals("Wow! You solved all the puzzles!")){
+            if (textLabel.getText().equals("Wow! You solved all the puzzles! Congrats!")){
+              invFrame.setVisible(false);
+              invFrame.dispose();
               f.dispose();
+              new VisualNovel("end.txt");
             }
             else{
-              JFrame f = new JFrame("Inventory");
-              nameLabel.setText("Player");
-              ball2.inventoryPopUp(f);
-              boolean answer=false;//if the answer if valid or not
-              int tempInt=-1;
               
-              while (answer==false){
+              nameLabel.setText("Player");
+              ball2.inventoryPopUp(invFrame);
+              boolean answer=false;//if the answer if valid or not
+              boolean correct=false;
+              int tempInt=-1;
+              boolean noItems=false;
+
+              boolean endLoop = false;
+              if (Main.getInventory().get(0).getFound()==false && Main.getInventory().get(1).getFound() == false&&
+              Main.getInventory().get(2).getFound()==false){ //if size is zero
+                answer=true;
+                noItems=true;//no items in inventory
+                nameLabel.setText("Tako");
+                textLabel.setText("You don't have any items to solve the riddle with...");
+              }
+              else{
+              while (answer==false && endLoop == false){
+                System.out.println ("Inventory size: " + Main.getInventory().size());
                 //create a pop up asking for answer
-                JFrame frame = new JFrame();
-                String temp = JOptionPane.showInputDialog("Please enter your answer:");
-                textLabel.setText(temp);
-                //attempt to convert to integer
-                if (checkInt(temp)==true){
+                //JFrame frame = new JFrame();
+                String temp = JOptionPane.showInputDialog("Please enter the item number from the inventory:");
+//                textLabel.setText(temp);
+                //if the user wants to exit
+                if (temp == null){
+                  endLoop = true;
+                }
+                try{
                   tempInt=Integer.parseInt(temp);
                 }
-                if (tempInt>-1 && tempInt<Main.getInventory().size()){
-                  answer=true; //valid answer
+                catch (Exception e){
+                 //answer is false
+                  System.out.println ("Not a number:(");
+                  endLoop = true;
                 }
+                System.out.println(tempInt);
+                if (tempInt>0 && tempInt<=Main.getInventory().size()){
+                  answer=true; //valid answer
+                  System.out.println(answer);
+                }
+                else{
+                  endLoop = true;
+                }
+
+                    
               }
+                //check if answer is valid
+              try{ correct = Main.solveRiddle(puzzles.get(0), Main.getInventory().get(tempInt-1));
+              }catch (NullPointerException e){}
               
-              //boolean correct = Main.solveRiddle(puzzles.get(0), items.get(Integer.parseInt(temp)));
-              boolean correct = Main.solveRiddle(puzzles.get(0), Main.getInventory().get(tempInt));
-              nameLabel.setText("NPC");
+              System.out.println ("No items: " + noItems);
+              nameLabel.setText("Tako");
               if (correct==true){
-                textLabel.setText("I can't belive you got that right!");
+                textLabel.setText("I can't believe you got that right!");
               }
               else{
                 textLabel.setText("You're terrible at this...");
               }
-              f.dispose(); //dispose of the frame
+              }
+              System.out.println ("Inventory");
+              //print out inventory for debug
+              for (int i=0; i<Main.getInventory().size(); i++){
+      System.out.println (Main.getInventory().get(i).getName());
+    }
+              invFrame.dispose();
             }
           }
           turn++;
         }
       }//end of action listening 
       }
-  
-    public static boolean checkInt(String str){
-      if (str.length()==0){
-        return false; //nothing in the string
-      }
-      for (int i=0; i<str.length(); i++){
-        char temp = str.charAt(i);
-        if (Character.isDigit(temp)==false){
-          return false;
-        }
-      }
-      return true;
-    }
-    
-  public static void main(String[] args) 
-  { 
-    new VisualNovel("text.txt");
-  }//end of main
-  
+ 
 }//end of class

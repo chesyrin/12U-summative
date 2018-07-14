@@ -1,7 +1,9 @@
-0 10 150 100 bookshelf
-149 10 220 100 plants
-446 10 516 100 tako
-518 10 600 118 me
-404 174 548 294 table
-0 168 82 322 bed
-84 304 174 322 bedside table
+0 10 140 100 -1 A bookshelf filled with nursery rhymes.
+446 10 516 100 -1 "Press c when you're ready!"
+518 10 600 118 1 The trash can. You peer in and see some takeout... You obtained a fork!
+404 174 550 294 -1 A table. Be careful not to stub your toe.
+0 168 82 322 -1 It's a bed. Must...resist...sleeping...
+84 304 174 322 -1 The bedside table. You see a ton of skin care products, but no mirror...
+78 10 150 100 2 The drawers are empty...other than a twinkling something in the corner. You obtained a mirror!
+130 10 220 100 -1 ...You're not sure if this plant is still alive.
+460 174 500 200 0 There are sheets of paper, writing utensils, and a book on the table. You took an envelope!

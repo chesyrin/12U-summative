@@ -28,6 +28,14 @@ class SimpleLinkedList<E> {
     return tempNode.getItem();
   }
   
+  public void set(int index, E item) { //sets the value of item at index
+    Node<E> tempNode = head;
+    for (int i=0; i<index; i++){
+      tempNode=tempNode.getNext();   
+    }
+    tempNode.setItem(item);
+  }
+  
   public int indexOf(E item) { //returns index of item
     Node<E> tempNode = head;
     int counter=0;
@@ -45,7 +53,7 @@ class SimpleLinkedList<E> {
   public E remove(int index) { //removes an element of the list
     int counter=0;
     if (index==0){ //if you need to remove the first item
-      head=new Node<E>(head.getNext().getItem(), head.getNext().getNext());
+     head=new Node<E>(head.getNext().getItem(), head.getNext().getNext());
     }
     Node <E> tempNode=head;
     while (tempNode!=null){
@@ -78,22 +86,22 @@ class SimpleLinkedList<E> {
     }
     return counter;
   }
-    /* sort
-   * sorts a list alphabetically from A to Z(insertion sort)
-   * @param a     the list to be sorted
+  
+  /*Insertion sort
+   * Sorts the items in the linked list
    */
-  public static void sort(DoubleLinkedList<Items> a){
+  public static void sort(SimpleLinkedList<Item> a){
     for (int i=1; i<a.size(); i++){ //starts at 2nd element
       int index=i-1;
-//      Items tempItem = a.get(i);
-//      String item = tempItem.getName(); //pivot element
+      Item tempItem = a.get(i);
+      int item = tempItem.getNum(); //pivot element
       
-      while (index>=0 && ((a.get(index)).getName()).compareTo(item)>0){
+      while (index>=0 && ((a.get(index)).getNum())>item){
         a.set(index+1, a.get(index)); //move the element one position down
         index--;
       }
       
       a.set(index+1,tempItem); //insert item in proper position
     }
-  }//end of sortAlpha
+  }
 }

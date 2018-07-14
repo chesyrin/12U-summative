@@ -1,41 +1,70 @@
 /* Main.java
  * Julia Zhao and Tasha Xiao
- * Main class for the 12U final project
- * May 31 2018
+ * Main class for the 12U final project - run program here
+ * June 14 2018
  */
 
+//import libraries
 import java.util.Scanner;
 import java.io.*;
 
 public class Main {
+  //declare variables
   private static SimpleLinkedList<Item> items = new SimpleLinkedList<Item>();
   private static SimpleLinkedList<Item> inventory = new SimpleLinkedList<Item>();
   private static SimpleLinkedList<Puzzle> puzzles = new SimpleLinkedList<Puzzle>();
-  private static int endMusic=1;
   
   /* readItems method
    * Reads information in from items text file into list
    */
   public static void readItems(){
     try{
+      //import scanner and read in file
       Scanner read = new Scanner (new File ("items.txt"));
       while (read.hasNextLine()){
         Item newItem = new Item();
         //sets the variable values
         newItem.setName(read.next());
-        newItem.setX(read.nextInt());
-        newItem.setY(read.nextInt());
         newItem.setNum(read.nextInt());
         newItem.setDesc(read.nextLine());
         
         items.add(newItem);
       }
+      //close scanner
       read.close();
-    }
+    }//end of try
     catch(Exception e){
       System.out.println("There is no text file called items.");
-    }
-  }
+    }//end of catch
+  }//end of readItems()
+  
+   /* readObjects method
+   * Reads information in from text file into list (in ball2)
+   * For GUI use
+   * @returns      the initialized SimpleLinkedList of objects
+   */ 
+  public static SimpleLinkedList<Object> readObjects(){
+    //initialize the simple linked list
+    SimpleLinkedList<Object> a = new SimpleLinkedList<Object>();
+    //read in the information from txt file
+    try {
+      Scanner fileInput = new Scanner (new File ("objectList.txt"));
+      while (fileInput.hasNextLine()){
+        Scanner stringInput = new Scanner(fileInput.nextLine());
+        Object temp = new Object(stringInput.nextInt(), stringInput.nextInt(), 
+                                 stringInput.nextInt(), stringInput.nextInt(),
+                                 stringInput.nextInt(), stringInput.nextLine());
+        a.add(temp);
+        stringInput.close();
+      }//end of while loop
+      //close scaner
+      fileInput.close();
+    }//end of try
+    catch(Exception e){
+      System.out.println("Object txt file error");
+    }//end of catch
+    return a;
+  }//end of readObjects() method
   
   /* readPuzzles method
    * Reads information in from puzzles file into list
@@ -50,13 +79,13 @@ public class Main {
         newPuzzle.setQ(read.nextLine());
         
         puzzles.add(newPuzzle);
-      }
+      }//end of while loop
       read.close();
-    }
+    }//end of try
     catch(Exception e){
       System.out.println("There is no text file called puzzles.");
-    }
-  }
+    }//end of catch
+  }//end of readPuzzles()
   
   /* solveRiddle method
    * If the player's answer is correct, make the appropriate changes to the linked lists
@@ -65,7 +94,7 @@ public class Main {
    * @return boolean - if the riddle has been solved or not
    */
   public static boolean solveRiddle(Puzzle puzzle, Item item){
-    if (puzzle.getNum()==item.getNum()){
+    if (puzzle.getNum()==item.getNum() && item.getFound()==true){
       //remove the puzzle and item from their respective lists
       if (puzzles.size()>1){
         puzzles.remove(0);
@@ -87,80 +116,66 @@ public class Main {
       return true;
     }
     return false;
-  }
+  }//end of solveRiddle()
   
-  /* checkItem method
-   * Check if the player is standing in front of an item when they try to pick it up
-   * @param x - x coordinate of the player
-   * @param y - y coordinate of the player
-   * @return boolean - if there is an item or not
+  /* ThreadMusic class
+   * Threads the background music
    */
-  public static boolean checkItem (int x, int y){
-    for (int i = 0; i< items.size(); i++){
-      //if user's x is within object's values
-      if (items.get(i).getX()-10 < x && x < items.get(i).getX()+100){
-        //if user's y is between y1 and y2
-        if (items.get(i).getY()-10 < y && y < items.get(i).getY()+100){
-          return true;
-        }
-      }
-    }
-    return false; //not in front of an object
-  }
-  
-  /* threadMusic method
-   * Method to start the music thread
-   */
-  public static class threadMusic implements Runnable //implements Runnable because it is executed by a thread
+  public static class ThreadMusic implements Runnable 
   {
     //method to tell program what to thread
     public void run()
     {
-      try
-      {
-        Music.play(); //start playing the music
+      try {
+          Music.play();
       }
       catch (Exception e)
       {
         System.out.println ("Error: " + e);
       }
     }
-  }
+  }//end of class
   
+  //main method
   public static void main(String [] args){
-    Thread music = new Thread (new threadMusic());
+    //start the music
+    Thread music = new Thread (new ThreadMusic());
     music.start (); //start the thread
-    
-    System.out.println ("i don't know anything anymore: an original game by tash and jul");
-    System.out.println ("(mrs. martin pls give us 100)\n");
-    
+
+    //initialize the SimpleLinkedLists
     readItems();
     readPuzzles();
     
-//    for (int i=2; i>=0; i--){
-//      inventory.add(items.get(i));
-//     // System.out.println (items.get(i).getName());
-//    }
+    SimpleLinkedList.sort(items); //sort items (make sure its in order)
     
-    //  System.out.println (inventory.size());
-    new Menu(); //new Menu class
+    for (int i=2; i>=0; i--){
+      inventory.add(items.get(i));
+    }
+    //open the gui
+//    new ball2();
+    new Menu();
   }
   
   //get methods
+  
+  /* getItems()
+   * @return     the simple linked list for items
+   */
   public static SimpleLinkedList<Item> getItems(){
     return items;
   }
   
+  /* getInventory()
+   * @return     the simple linked list for the current inventory
+   */
   public static SimpleLinkedList<Item> getInventory(){
     return inventory;
   }
   
+  /* getPuzzles()
+   * @return     the simple linked list for the puzzles
+   */
   public static SimpleLinkedList<Puzzle> getPuzzles(){
     return puzzles;
   }
-  
-  //set methods
-  public static void setEndMusic(){
-    endMusic=0;
-  }
-}
+}//end of Main class

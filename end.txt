@@ -1,0 +1,3 @@
+NPC So... You've cracked the code. Uncovered the secrets. Figured it out.
+Player Stop monologuing. Get me out of this room.
+NPC Very well. Congratulations, you survived.

@@ -12,19 +12,20 @@ import java.awt.event.*;
 import java.awt.*;
 
 public class Menu implements ActionListener{
+  JFrame frame = new JFrame ("puzzle rpg: the game");
   public Menu(){ //constructor
     //create stuff for GUI
-    JFrame frame = new JFrame ("i don't know anything anymore: a game");
     JPanel overPanel = new JPanel();
     JPanel bgPanel = new JPanel();
     JPanel contentPanel = new JPanel();
     
-    JLabel name = new JLabel ("i don't know anything anymore: an original game by tash and jul");
+    JLabel name = new JLabel ("puzzle rpg: the game");
     JButton start = new JButton ("START");
     
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //set behaviour for frame
     frame.setSize(700,500);
     frame.setResizable(false);
+    frame.setLocationRelativeTo(null);
     
     LayoutManager overlay = new OverlayLayout(overPanel); //overlay layout for background
     overPanel.setLayout(overlay);
@@ -57,9 +58,9 @@ public class Menu implements ActionListener{
   
   public void actionPerformed(ActionEvent e){
     System.out.println ("Starting...");
+    frame.setVisible(false);
+    frame.dispose();
+    new Instructions();
   }
   
-  public static void main(String[]args){
-    new Menu();
-  }
 }
